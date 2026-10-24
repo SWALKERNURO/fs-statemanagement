@@ -2,7 +2,7 @@ name: Anecdotes tests check
 
 on:
   push:
-    branches: [xmain]
+    branches: [main]
 
 jobs:
   unit-tests:
@@ -16,7 +16,7 @@ jobs:
 
       - name: Install anecdotes dependencies
         working-directory: anecdotes
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Verify test files exist
         working-directory: anecdotes-tests

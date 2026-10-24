@@ -1,14 +1,5 @@
-const Notification = () => {
-  const style = {
-    border: "solid",
-    padding: 10,
-    borderWidth: 1,
-    marginBottom: 5,
-  }
-
-  if (true) return null
-
-  return <div data-testid="notification" style={style}></div>
+import { useNotification } from '../NotificationContext'
+export default function Notification() {
+  const message = useNotification()
+  return message ? <div role="status" data-testid="notification" style={{ border: '1px solid', padding: 10 }}>{message}</div> : null
 }
-
-export default Notification

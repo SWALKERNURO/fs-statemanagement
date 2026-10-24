@@ -1,0 +1,21 @@
+name: Production builds and lint
+on:
+  push:
+    branches: [main]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [unicafe, anecdotes, query-anecdotes]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm install --no-audit --no-fund
+        working-directory: ${{ matrix.app }}
+      - run: npm run build
+        working-directory: ${{ matrix.app }}
+      - run: npm run lint
+        working-directory: ${{ matrix.app }}

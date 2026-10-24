@@ -1,20 +1,15 @@
-const AnecdoteForm = () => {
-  const onCreate = (event) => {
+export default function AnecdoteForm({ creation }) {
+  const submit = async event => {
     event.preventDefault()
-    const content = event.target.anecdote.value
-    event.target.reset()
-    console.log('new anecdote')
+    const form = event.currentTarget
+    const content = form.elements.anecdote.value.trim()
+    try {
+      await creation.mutateAsync(content)
+      form.reset()
+    } catch { /* Mutation onError displays the server error notification. */ }
   }
-
-  return (
-    <div>
-      <h3>create new</h3>
-      <form onSubmit={onCreate}>
-        <input name="anecdote" />
-        <button type="submit">create</button>
-      </form>
-    </div>
-  )
+  return <section><h3>create new</h3><form onSubmit={submit}>
+    <label>anecdote <input name="anecdote" required /></label>
+    <button disabled={creation.isPending}>create</button>
+  </form></section>
 }
-
-export default AnecdoteForm

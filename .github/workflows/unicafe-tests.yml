@@ -2,7 +2,7 @@ name: Unicafe tests
 
 on:
   push:
-    branches: [xmain]
+    branches: [main]
 
 jobs:
   playwright-tests:
@@ -16,11 +16,11 @@ jobs:
 
       - name: Install unicafe dependencies
         working-directory: unicafe
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Install test dependencies
         working-directory: unicafe-tests
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Install Playwright browsers
         working-directory: unicafe-tests

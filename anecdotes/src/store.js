@@ -1,26 +1,42 @@
-
 import { create } from 'zustand'
 
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
+const url = 'http://localhost:3001/anecdotes'
+const request = async (path = '', options) => {
+  const response = await fetch(url + path, options)
+  if (!response.ok) throw new Error('Anecdote service request failed')
+  return response.status === 204 ? null : response.json()
+}
+const json = body => ({ headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = anecdote => ({
-  content: anecdote,
-  id: getId(),
-  votes: 0
-})
-
-const useAnecdoteStore = create((set) => ({
-  anecdotes: anecdotesAtStart.map(asObject),
-  actions: {},
+export const useAnecdoteStore = create((set, get) => ({
+  anecdotes: [], filter: '', loading: true, error: '',
+  actions: {
+    initialize: async () => {
+      try {
+        const anecdotes = await request()
+        set({ anecdotes, loading: false, error: '' })
+      } catch (error) { set({ loading: false, error: error.message }) }
+    },
+    setFilter: filter => set({ filter }),
+    create: async content => {
+      const anecdote = await request('', { method: 'POST', ...json({ content, votes: 0 }) })
+      set(state => ({ anecdotes: [...state.anecdotes, anecdote] }))
+      return anecdote
+    },
+    vote: async id => {
+      const current = get().anecdotes.find(anecdote => anecdote.id === id)
+      if (!current) throw new Error('Anecdote not found')
+      const updated = await request('/' + encodeURIComponent(id), { method: 'PUT', ...json({ ...current, votes: current.votes + 1 }) })
+      set(state => ({ anecdotes: state.anecdotes.map(anecdote => anecdote.id === id ? updated : anecdote) }))
+      return updated
+    },
+    remove: async id => {
+      const current = get().anecdotes.find(anecdote => anecdote.id === id)
+      if (!current || current.votes !== 0) throw new Error('Only anecdotes with zero votes can be deleted')
+      await request('/' + encodeURIComponent(id), { method: 'DELETE' })
+      set(state => ({ anecdotes: state.anecdotes.filter(anecdote => anecdote.id !== id) }))
+    },
+  },
 }))
-
-export const useAnecdotes = () => useAnecdoteStore((state) => state.anecdotes)
+export const useAnecdotes = () => useAnecdoteStore(state => state.anecdotes)
+export const useAnecdoteActions = () => useAnecdoteStore(state => state.actions)

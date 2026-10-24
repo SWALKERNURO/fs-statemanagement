@@ -1,16 +1,7 @@
-# React + Vite
+# Zustand anecdotes — exercises 6.2–6.15
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Based on the official course starter and its unchanged supplied acceptance tests.
+The application fetches initial data, creates, votes and deletes zero-vote anecdotes through Fetch API. Zustand holds data, filter and notifications. Sorting and filtering produce a new list passed to AnecdoteList.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Run npm install, npm run server and npm run dev in separate terminals in this directory. The server uses localhost:3001.
+Run npm test for four unit/component tests. From ../anecdotes-tests run npm install, npx playwright install chromium, npm test and npm run verify:tests-are-real.

@@ -1,16 +1,6 @@
-# React + Vite
+# TanStack Query anecdotes — exercises 6.16–6.22
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Based on the official course starter and unchanged supplied acceptance tests.
+TanStack Query fetches data and handles creation/voting mutations through a custom hook. The cache updates on success. Context stores notifications with a resettable five-second timer, exposed through useNotify. The backend rejects content shorter than five characters; mutation onError shows the server error while preserving the form.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Run npm install, npm run server and npm run dev in separate terminals here. From ../query-anecdotes-tests run npm install, npx playwright install chromium and npm test. Tests use db-test.json, not the development db.json.
