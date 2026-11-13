@@ -1,11 +1,16 @@
 name: Query anecdotes tests 2
 
 on:
+  pull_request:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   playwright-tests:
+    name: Query anecdotes notification tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
