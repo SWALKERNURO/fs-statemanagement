@@ -18,7 +18,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - run: npm install --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
+        working-directory: ${{ matrix.app }}
+      - run: npm audit --audit-level=low
         working-directory: ${{ matrix.app }}
       - run: npm run build
         working-directory: ${{ matrix.app }}
