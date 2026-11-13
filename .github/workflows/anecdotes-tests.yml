@@ -1,11 +1,16 @@
 name: Anecdotes tests
 
 on:
+  pull_request:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   playwright-tests:
+    name: Anecdotes browser tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
